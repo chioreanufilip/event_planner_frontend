@@ -3,7 +3,8 @@ import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
-
+import CreateWedding from './components/Event';
+import EventGallery from './components/EventGallery';
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,9 @@ function App() {
           
           {/* Când intri pe site (URL-ul este "/"), te trimite automat la /login */}
           <Route path="/" element={<Navigate replace to="/login" />} />
+
+          <Route path="/event/create" element={<CreateWedding />} />
+          <Route path="media/event/:eventId" element={<EventGallery />} />
         </Routes>
 
       </div>

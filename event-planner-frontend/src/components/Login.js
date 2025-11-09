@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const Login = () => {
     // Folosim "useState" pentru a ține minte ce scrie user-ul
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(''); // Pentru a afișa erori
+    const navigate = useNavigate();
 
     // Această funcție se apelează când se apasă butonul "Submit"
     const handleSubmit = async (e) => {
@@ -22,13 +23,16 @@ const Login = () => {
             });
 
             // 2. Dacă funcționează, backend-ul ne va trimite un token
-            const token = response.data.token; // Presupunem că răspunsul arată așa: { "token": "..." }
+            const {token,user} = response.data; // Presupunem că răspunsul arată așa: { "token": "..." }
 
             // 3. Salvăm token-ul în "localStorage"-ul browser-ului
             // Asta îl ține pe utilizator logat
             localStorage.setItem('token', token);
-            
-            console.log('Login reușit! Token:', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            console.log('Login reușit! Token:', token);console.log('User type:', user.role);
+            if (user.role === 'organizer') {
+            navigate('/event/create');
+        }
             // alert('Login reușit!');
             
             // Aici ai putea redirecționa user-ul către altă pagină (de ex. /dashboard)
@@ -72,8 +76,8 @@ const Login = () => {
                 <button type="submit">Login</button>
             </form>
             <p style={{ marginTop: '20px' }}>
-                Nu ai un cont? 
-                <Link to="/register"> Înregistrează-te aici</Link>
+                Don t have an account? 
+                <Link to="/register"> Sign up here</Link>
             </p>
         </div>
     );
