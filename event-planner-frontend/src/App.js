@@ -1,37 +1,56 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Landing from './components/Landing';
 import Login from './components/Login';
 import Register from './components/Register';
-import CreateWedding from './components/Event';
-import EventGallery from './components/EventGallery';
+import Events from './components/Events';
+import CreateEvent from './components/CreateEvent';
+import EventDetails from './components/EventDetails';
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
-  return (
-    <BrowserRouter>
-      <div className="App">
-        {/* <header className="App-header"> */}
-          {/* <h1>Event Planner</h1>
-          {/* Poți păstra sau șterge link-urile de navigare de aici,
-              depinde dacă vrei să le ai și în header */}
-        {/* </header> */} 
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <Routes>
+                    <Route path="/" element={<Landing />} />
 
-        <Routes>
-          {/* Când URL-ul este /login, afișează componenta Login */}
-          <Route path="/login" element={<Login />} />
-          
-          {/* Când URL-ul este /register, afișează componenta Register */}
-          <Route path="/register" element={<Register />} />
-          
-          {/* Când intri pe site (URL-ul este "/"), te trimite automat la /login */}
-          <Route path="/" element={<Navigate replace to="/login" />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
-          <Route path="/event/create" element={<CreateWedding />} />
-          <Route path="media/event/:eventId" element={<EventGallery />} />
-        </Routes>
+                    <Route
+                        path="/events"
+                        element={
+                            <ProtectedRoute>
+                                <Events />
+                            </ProtectedRoute>
+                        }
+                    />
 
-      </div>
-    </BrowserRouter>
-  );
+                    <Route
+                        path="/event/create"
+                        element={
+                            <ProtectedRoute requireOrganizer>
+                                <CreateEvent />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/event/:eventId"
+                        element={
+                            <ProtectedRoute>
+                                <EventDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Fallback redirect */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;
