@@ -9,7 +9,7 @@ const CLOUDINARY_UPLOAD_PRESET = "event_planner_preset"; // Pune aici numele Pre
 // --------------------------
 
 const EventGallery = () => {
-    // 1. Ia ID-ul evenimentului din URL (ex. /events/5/gallery -> eventId = 5)
+    // 1. Ia ID-ul evenimentului din URL (ex. media/event/5 -> eventId = 5)
     const { eventId } = useParams();
     // console.log("Media ID:", mediaId);
     const navigate = useNavigate();
@@ -165,8 +165,8 @@ const EventGallery = () => {
                     ))}
                 </div>
             )}
-            <button onClick={() => navigate('/Login')} style={{ marginTop: '20px' }}>
-                Back to loading
+            <button onClick={() => navigate('/events')} style={{ marginTop: '20px' }}>
+                Back to events
             </button>
         </div>
     );

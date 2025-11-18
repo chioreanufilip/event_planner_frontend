@@ -7,6 +7,7 @@ import Events from './components/Events';
 import CreateEvent from './components/CreateEvent';
 import EventDetails from './components/EventDetails';
 import ProtectedRoute from './components/ProtectedRoute';
+import EventGallery from './components/EventGallery';
 
 function App() {
     return (
@@ -41,6 +42,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <EventDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/media/event/:eventId"
+                        element={
+                            <ProtectedRoute>
+                                <EventGallery />
                             </ProtectedRoute>
                         }
                     />

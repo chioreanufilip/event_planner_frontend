@@ -6,9 +6,10 @@ import api from '../api';
 const Events = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [events, setEvents] = useState([]);
+    const [events,  setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [invitations, setInvitations] = useState([]);
 
     useEffect(() => {
         const userData = localStorage.getItem('user');
@@ -19,11 +20,25 @@ const Events = () => {
         fetchEvents();
     }, []);
 
+    // const fetchInvitations = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const response = await api.get('/api/invitations/my-invites');
+    //         setInvitations(response.data);
+    //     } catch (err) {
+    //         console.error('Error fetching invitations:', err);
+    //         setError('Could not load events from invitations.');
+    //     }
+    //     setIsLoading(false);
+    // };
+
     const fetchEvents = async () => {
         setIsLoading(true);
         try {
-            const response = await api.get('/api/event/all');
-            setEvents(response.data);
+            if (user?.role === 'organizer') {
+                const response = await api.get('/api/event/my-events');
+                setEvents(response.data);
+            }///aici sa pun else pentru participant sa ia invitatiile
         } catch (err) {
             console.error('Error fetching events:', err);
             setError('Could not load events.');
@@ -72,6 +87,14 @@ const Events = () => {
                     <div className="text-center py-20">
                         <p className="text-red-600 text-xl">{error}</p>
                     </div>
+                //     ) : user?.role === 'participant' ? (
+                // <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'> 
+                // {/* <h3>Your Invitations</h3> */}
+                //     { invitations.map((invitation) => (
+                //         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col">
+                //              onClick={() => navigate(`/media/event/${invitation.id}`)}</div>
+                //     ))}
+                //     </div>
                 ) : events.length === 0 ? (
                     <div className="text-center py-20">
                         <Calendar className="w-20 h-20 text-stone-300 mx-auto mb-4" />
@@ -86,19 +109,20 @@ const Events = () => {
                             </button>
                         )}
                     </div>
+                
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {events.map((event) => (
                             <div
                                 key={event.id}
-                                className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
-                                onClick={() => navigate(`/event/${event.id}`)}
+                                className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col"
+                                // onClick={() => navigate(`/media/event/${event.id}`)}
                             >
                                 <div className="bg-gradient-to-br from-amber-400 to-amber-600 h-32"></div>
-                                <div className="p-6">
-                                    <h3 className="text-2xl font-serif text-amber-800 mb-4">{event.name}</h3>
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <h3 className="text-2xl font-serif text-amber-800 mb-4 cursor-pointer hover:text-amber-900"  onClick={() => navigate(`/media/event/${event.id}`)}>{event.name}</h3> 
 
-                                    <div className="space-y-2 text-stone-600">
+                                    <div className="space-y-2 text-stone-600 flex-1">
                                         <div className="flex items-center gap-2">
                                             <MapPin className="w-4 h-4" />
                                             <span>{event.location}</span>
@@ -115,6 +139,20 @@ const Events = () => {
                                             <DollarSign className="w-4 h-4" />
                                             <span>${event.budget}</span>
                                         </div>
+                                    </div>
+                                    <div className="mt-6 flex justify-between gap-3">
+                                        <button
+                                            onClick={() => navigate(`/media/event/${event.id}`)}
+                                            className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                                        >
+                                            View Photos
+                                        </button>
+                                        <button
+                                            onClick={() => navigate(`/event/${event.id}/invitations`)}
+                                            className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                                        >
+                                            Invitations
+                                        </button>
                                     </div>
                                 </div>
                             </div>

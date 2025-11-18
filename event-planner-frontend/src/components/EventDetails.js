@@ -22,7 +22,7 @@ const Events = () => {
     const fetchEvents = async () => {
         setIsLoading(true);
         try {
-            const response = await api.get('/api/event/all');
+            const response = await api.get('/api/event/my-events');
             setEvents(response.data);
         } catch (err) {
             console.error('Error fetching events:', err);
