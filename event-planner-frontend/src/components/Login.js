@@ -27,7 +27,7 @@ const Login = () => {
             console.log('Login successful! Token:', token);
             console.log('User type:', user.role);
 
-            navigate('/events');
+            navigate('/home');
 
         } catch (err) {
             console.error('Login error:', err.response?.data);

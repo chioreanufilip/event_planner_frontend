@@ -49,7 +49,7 @@ const Register = () => {
             localStorage.setItem('user', JSON.stringify(user));
 
             setTimeout(() => {
-                navigate('/events');
+                navigate('/home');
             }, 1000);
 
         } catch (err) {
