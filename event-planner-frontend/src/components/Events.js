@@ -34,8 +34,9 @@ const Events = () => {
 
     const fetchEvents = async () => {
         setIsLoading(true);
-        try {
-            if (user?.role === 'organizer') {
+        try {//console.log("user role:", localStorage.getItem('user'))
+            //console.log("user role:",user?.role)
+            if (JSON.parse(localStorage.getItem('user'))?.role === 'organizer') {
                 const response = await api.get('/api/event/my-events');
                 setEvents(response.data);
             }///aici sa pun else pentru participant sa ia invitatiile
