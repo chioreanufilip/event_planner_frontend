@@ -97,6 +97,8 @@ const Invitations = () => {
         switch (status) {
             case 'GOING':
                 return <Check className="w-5 h-5 text-green-600" />;
+            case 'STILL DECIDING':
+                return <Clock className="w-5 h-5 text-amber-600" />;
             case 'NOT_GOING':
                 return <X className="w-5 h-5 text-red-600" />;
             default:
@@ -108,6 +110,8 @@ const Invitations = () => {
         switch (status) {
             case 'GOING':
                 return 'bg-green-100 text-green-800 border-green-300';
+            case 'STILL DECIDING':
+                return 'bg-amber-100 text-amber-800 border-amber-300';
             case 'NOT_GOING':
                 return 'bg-red-100 text-red-800 border-red-300';
             default:
@@ -123,7 +127,8 @@ const Invitations = () => {
     const stats = {
         total: invitations.length,
         going: invitations.filter(i => i.rsvpStatus === 'GOING').length,
-        notGoing: invitations.filter(i => i.rsvpStatus === 'NOT_GOING').length,
+        stilldeciding: invitations.filter(i => i.rsvpStatus === 'STILL DECIDING').length,
+        notGoing: invitations.filter(i => i.rsvpStatus === 'NOT_GOING').length
     };
 
     if (!event) {
@@ -162,6 +167,12 @@ const Invitations = () => {
                         <div className="text-3xl font-bold text-green-600 mb-1">{stats.going}</div>
                         <div className="text-stone-600 text-sm">Attending</div>
                     </div>
+
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                        <div className="text-3xl font-bold text-amber-600 mb-1">{stats.stilldeciding}</div>
+                        <div className="text-stone-600 text-sm">Still Deciding</div>
+                    </div>
+
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
                         <div className="text-3xl font-bold text-red-600 mb-1">{stats.notGoing}</div>
                         <div className="text-stone-600 text-sm">Declined</div>

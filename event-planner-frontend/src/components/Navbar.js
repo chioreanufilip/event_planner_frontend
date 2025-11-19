@@ -141,7 +141,7 @@ const Navbar = () => {
                                     className="flex items-center gap-2 text-stone-700 hover:text-amber-800 transition-colors font-medium"
                                 >
                                     <Users className="w-5 h-5" />
-                                    Invitations
+                                    Manage Invitations
                                     <ChevronDown className={`w-4 h-4 transition-transform ${showInvitationsDropdown ? 'rotate-180' : ''}`} />
                                 </button>
 
